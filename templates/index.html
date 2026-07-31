@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern QR Generator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1d4ed8, #7c3aed);
+            color: #e2e8f0;
+            padding: 24px;
+        }
+
+        .card {
+            width: min(100%, 760px);
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            padding: 36px;
+        }
+
+        .title {
+            margin: 0 0 8px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .subtitle {
+            margin: 0 0 24px;
+            text-align: center;
+            color: #cbd5e1;
+        }
+
+        .form-wrap {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 26px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            outline: none;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        button {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(135deg, #38bdf8, #8b5cf6);
+            color: white;
+        }
+
+        .qr-box {
+            background: rgba(255,255,255,0.92);
+            border-radius: 22px;
+            padding: 26px;
+            text-align: center;
+            color: #0f172a;
+        }
+
+        .qr-box img {
+            max-width: 280px;
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 12px;
+            border-radius: 12px;
+        }
+
+        .url-label {
+            font-size: 0.95rem;
+            color: #475569;
+            word-break: break-all;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 22px;
+            }
+
+            .form-wrap {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 class="title">Modern QR Generator</h1>
+        <p class="subtitle">Paste any website link and generate its QR code instantly.</p>
+
+        <form method="post" class="form-wrap">
+            <input
+                type="text"
+                name="website_url"
+                placeholder="Enter website link e.g. https://example.com"
+                value="{{ website_url }}"
+                required
+            >
+            <button type="submit">Generate QR</button>
+        </form>
+
+        {% if qr_image %}
+            <div class="qr-box">
+                <img src="data:image/png;base64,{{ qr_image }}" alt="Generated QR code">
+                <div class="url-label">{{ website_url }}</div>
+            </div>
+        {% else %}
+            <div class="qr-box">
+                <p>Your QR code will appear here after you submit a website link.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
